@@ -19,13 +19,12 @@ cloudinary.config({
   async function uploadToCloudinary(locaFilePath) {
   
     var mainFolderName = "hooly-app";
-    // filePathOnCloudinary: path of image we want
-    // to set when it is uploaded to cloudinary
+
     var filePathOnCloudinary = 
         mainFolderName + "/" + locaFilePath;
-  
+
     return cloudinary.uploader
-        .upload(locaFilePath, { public_id: filePathOnCloudinary })
+        .upload(locaFilePath, { public_id: filePathOnCloudinary, resource_type: 'auto' })
         .then((result) => {
 
             fs.unlinkSync(locaFilePath);
@@ -38,7 +37,7 @@ cloudinary.config({
         .catch((error) => {
             // Remove file from local uploads folder
             fs.unlinkSync(locaFilePath);
-            return { message: "Fail" };
+            return {error};
         });
 }
   
